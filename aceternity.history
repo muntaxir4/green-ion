@@ -1,0 +1,6 @@
+//wave hero
+npm i framer-motion clsx tailwind-merge simplex-noise
+
+//people
+npm i framer-motion clsx tailwind-merge
+
