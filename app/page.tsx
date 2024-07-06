@@ -8,7 +8,9 @@ import WavyBackgroundDemo from "@/components/custom/WavyBackgroundDemo";
 export default function Home() {
   return (
     <div>
-      <WavyBackgroundDemo />
+      <div className="relative overflow-hidden">
+        <WavyBackgroundDemo />
+      </div>
       <Investors />
       <People />
       <Pricing />

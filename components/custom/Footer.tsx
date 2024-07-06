@@ -2,7 +2,7 @@ import { Linkedin, X, Facebook } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="flex justify-around text-sm py-16 bg-gray-300 dark:bg-gray-600">
+    <footer className="flex justify-around text-sm py-16 bg-gray-300 dark:bg-gray-600 ">
       <div className="">
         <ul>
           <li>About Us</li>

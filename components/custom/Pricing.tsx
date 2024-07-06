@@ -6,6 +6,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export default function Pricing() {
   return (
@@ -26,9 +27,11 @@ export default function Pricing() {
             </ul>
           </CardContent>
           <CardFooter>
-            <Button variant="secondary" className="w-full text-lg">
-              Always Free
-            </Button>
+            <Link href="/docs" className="w-full">
+              <Button variant="secondary" className="w-full text-lg">
+                Always Free
+              </Button>
+            </Link>
           </CardFooter>
         </Card>
         <Card className="sm:mt-2 m-2 mt-4 shadow-md bg-secondary ring ring-opacity-20 hover:ring-blue-500 flex flex-col justify-between">
@@ -44,7 +47,9 @@ export default function Pricing() {
             </ul>
           </CardContent>
           <CardFooter>
-            <Button className="w-full text-lg">Contact Us</Button>
+            <Link href="/contact" className="w-full">
+              <Button className="w-full text-lg">Contact Us</Button>
+            </Link>
           </CardFooter>
         </Card>
       </div>

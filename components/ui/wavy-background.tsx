@@ -117,7 +117,7 @@ export const WavyBackground = ({
       )}
     >
       <canvas
-        className="absolute inset-0 z-0 top-[3rem]"
+        className="absolute inset-0 z-0"
         ref={canvasRef}
         id="canvas"
         style={{

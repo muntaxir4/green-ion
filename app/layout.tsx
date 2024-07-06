@@ -8,6 +8,8 @@ import { ThemeProvider } from "@/components/ui/theme-provider";
 import NavBar from "@/components/custom/NavBar";
 //footer
 import Footer from "@/components/custom/Footer";
+//Layout with recoil
+import Layout from "@/components/custom/Layout";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -30,8 +32,10 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <NavBar />
-          {children}
+          <Layout>
+            <NavBar />
+            {children}
+          </Layout>
         </ThemeProvider>
         <Footer />
       </body>

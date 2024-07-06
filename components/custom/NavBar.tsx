@@ -1,104 +1,156 @@
+"use client";
+
 import ToggleTheme from "@/components/custom/ToggleTheme";
 import { Menu } from "lucide-react";
 
 import {
   NavigationMenu,
   NavigationMenuItem,
-  NavigationMenuLink,
   NavigationMenuList,
-  navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 
 import { Button } from "@/components/ui/button";
-import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
+//for sidebar on mobile
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
-function NavBarDesktop() {
+//functional components
+import Link from "next/link";
+import { useEffect, useState } from "react";
+
+//isLogged in
+import { isLoggedIn } from "@/store/atom";
+import { RecoilState, useRecoilState } from "recoil";
+
+function NavBarDesktop({ admin }: { admin: boolean }) {
   return (
     <NavigationMenu className="mx-auto">
       <NavigationMenuList>
         <NavigationMenuItem>
-          <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-            Home
-          </NavigationMenuLink>
+          <Link href="/">
+            <Button variant="ghost">Home</Button>
+          </Link>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-            Documentation
-          </NavigationMenuLink>
+          <Link href="/docs">
+            <Button variant="ghost">Docs</Button>
+          </Link>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-            Pricing
-          </NavigationMenuLink>
+          <Link href="/#pricing">
+            <Button variant="ghost">Pricing</Button>
+          </Link>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-            Login
-          </NavigationMenuLink>
+          {admin ? (
+            <Link href="/dashboard">
+              <Button variant="ghost">Dashboard</Button>
+            </Link>
+          ) : (
+            <Link href="/login">
+              <Button variant="ghost">Login</Button>
+            </Link>
+          )}
         </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
   );
 }
 
-function NavBarMobile() {
+function NavBarMobile({ admin }: { admin: boolean }) {
+  const [open, setOpen] = useState(false);
+
   return (
-    <Drawer direction="left">
-      <DrawerTrigger>
+    <Sheet open={open} onOpenChange={setOpen}>
+      <SheetTrigger asChild>
         <Menu className="m-2" />
-      </DrawerTrigger>
-      <DrawerContent className="h-screen w-4/5 ">
-        <div>
-          <NavigationMenu className=" mx-auto">
-            <NavigationMenuList className="flex flex-col h-screen justify-center">
-              <NavigationMenuItem>
-                <NavigationMenuLink
-                  className={navigationMenuTriggerStyle() + " text-xl"}
+      </SheetTrigger>
+      <SheetContent side="left" className="flex flex-col justify-center">
+        <NavigationMenu className=" mx-auto">
+          <NavigationMenuList className="flex flex-col justify-center">
+            <NavigationMenuItem>
+              <Link href="/">
+                <Button
+                  variant="ghost"
+                  className="text-xl"
+                  onClick={() => setOpen(false)}
                 >
-                  <span className="underline">Home</span>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <NavigationMenuLink
-                  className={navigationMenuTriggerStyle() + " text-xl"}
+                  Home
+                </Button>
+              </Link>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <Link href="/docs">
+                <Button
+                  variant="ghost"
+                  className="text-xl"
+                  onClick={() => setOpen(false)}
                 >
-                  Documentation
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <NavigationMenuLink
-                  className={navigationMenuTriggerStyle() + " text-xl"}
+                  Docs
+                </Button>
+              </Link>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <Link href="/#pricing">
+                <Button
+                  variant="ghost"
+                  className="text-xl"
+                  onClick={() => setOpen(false)}
                 >
                   Pricing
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <NavigationMenuLink
-                  className={navigationMenuTriggerStyle() + " text-xl"}
-                >
-                  Login
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-            </NavigationMenuList>
-          </NavigationMenu>
-        </div>
-      </DrawerContent>
-    </Drawer>
+                </Button>
+              </Link>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              {admin ? (
+                <Link href="/dashboard">
+                  <Button
+                    variant="ghost"
+                    className="text-xl"
+                    onClick={() => setOpen(false)}
+                  >
+                    Dashboard
+                  </Button>
+                </Link>
+              ) : (
+                <Link href="/login">
+                  <Button
+                    variant="ghost"
+                    className="text-xl"
+                    onClick={() => setOpen(false)}
+                  >
+                    Login
+                  </Button>
+                </Link>
+              )}
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>
+      </SheetContent>
+    </Sheet>
   );
 }
 
 export default function NavBar() {
+  const [loggedIn, setLoggedIn] = useRecoilState(isLoggedIn);
+  useEffect(() => {
+    if (localStorage.getItem("admin") == "true") {
+      setLoggedIn(true);
+    } else setLoggedIn(false);
+  }, [loggedIn]);
+
   return (
     <>
-      <div className="grid grid-cols-6 sm:hidden m-1">
-        <NavBarMobile />
+      <div className="grid grid-cols-6 sm:hidden m-1 ">
+        <NavBarMobile admin={loggedIn} />
+
         <h2 className="text-2xl self-center col-span-4 text-center font-semibold italic">
-          G.I.
+          <Link href="/">G.I.</Link>
         </h2>
+
         <ToggleTheme className="absolute right-0 z-10" />
       </div>
       <div className="hidden sm:flex m-1">
-        <NavBarDesktop />
+        <NavBarDesktop admin={loggedIn} />
         <ToggleTheme className="absolute right-0 z-10" />
       </div>
     </>
