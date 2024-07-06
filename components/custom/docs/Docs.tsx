@@ -2,8 +2,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function Docs() {
   return (
-    <div className="m-4  text-center">
-      <p className="text-2xl">Here's our Documentation</p>
+    <div className="mx-auto my-2  text-center">
+      <p className="text-2xl">{"Here's our Documentation"}</p>
 
       <div className="my-12">
         <Tabs defaultValue="papers">

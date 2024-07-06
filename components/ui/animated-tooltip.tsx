@@ -9,14 +9,14 @@ import {
   useSpring,
 } from "framer-motion";
 
+import { Avatar, AvatarFallback } from "@radix-ui/react-avatar";
+
 export const AnimatedTooltip = ({
   items,
 }: {
   items: {
     id: number;
     name: string;
-    designation: string;
-    image: string;
   }[];
 }) => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
@@ -73,18 +73,26 @@ export const AnimatedTooltip = ({
                 <div className="font-bold text-white relative z-30 text-base">
                   {item.name}
                 </div>
-                <div className="text-white text-xs">{item.designation}</div>
               </motion.div>
             )}
           </AnimatePresence>
-          <Image
+          <Avatar
+            key={item.id}
+            className=" p-5 border-2 border-white rounded-full bg-secondary"
+            onMouseMove={handleMouseMove}
+          >
+            <AvatarFallback>
+              <span className="text-2xl font-bold">{item.name[0]}</span>
+            </AvatarFallback>
+          </Avatar>
+          {/* <Image
             onMouseMove={handleMouseMove}
             height={100}
             width={100}
-            src={item.image}
+            src={"/anon.png"}
             alt={item.name}
             className="object-cover !m-0 !p-0 object-top rounded-full h-14 w-14 border-2 group-hover:scale-105 group-hover:z-30 border-white  relative transition duration-500"
-          />
+          /> */}
         </div>
       ))}
     </>
