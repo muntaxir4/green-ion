@@ -51,7 +51,7 @@ export default function Login() {
               <Input
                 id="email"
                 type="email"
-                placeholder="m@example.com"
+                placeholder="demo@gmail.com"
                 required
               />
             </div>

@@ -7,6 +7,12 @@ export default function Footer() {
         <ul>
           <li>About Us</li>
           <li>Copyright @ 2024</li>
+          <li>
+            Developed by{" "}
+            <a href="https://github.com/muntaxir4" target="_blank">
+              Muntasir
+            </a>
+          </li>
         </ul>
       </div>
       <div className="">
