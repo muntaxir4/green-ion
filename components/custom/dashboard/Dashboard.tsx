@@ -26,6 +26,18 @@ export default function Dashboard() {
   const email = useRecoilValue(userEmail);
   const [orders, setOrders] = useRecoilState(userOrders);
   
+  // Update order emails when user logs in
+  useEffect(() => {
+    if (loggedIn && email) {
+      setOrders(prevOrders => 
+        prevOrders.map(order => ({
+          ...order,
+          customerEmail: order.customerEmail || email
+        }))
+      );
+    }
+  }, [loggedIn, email, setOrders]);
+  
   useEffect(() => {
     if (!loggedIn) {
       window.location.href = "/login";
