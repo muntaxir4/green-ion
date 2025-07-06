@@ -1,8 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    esmExternals: 'loose'
-  }
+  images: {
+    domains: ["images.unsplash.com", "cdn.pixabay.com"],
+  },
 };
 
 export default nextConfig;
