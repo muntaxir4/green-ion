@@ -18,7 +18,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 //isLogged in
-import { isLoggedIn } from "@/store/atom";
+import { isLoggedIn, userEmail } from "@/store/atom";
 import { RecoilState, useRecoilState } from "recoil";
 
 function NavBarDesktop({ admin }: { admin: boolean }) {
@@ -37,7 +37,7 @@ function NavBarDesktop({ admin }: { admin: boolean }) {
         </NavigationMenuItem>
         <NavigationMenuItem>
           <Link href="/#pricing">
-            <Button variant="ghost">Pricing</Button>
+            <Button variant="ghost">Products</Button>
           </Link>
         </NavigationMenuItem>
         <NavigationMenuItem>
@@ -96,7 +96,7 @@ function NavBarMobile({ admin }: { admin: boolean }) {
                   className="text-xl"
                   onClick={() => setOpen(false)}
                 >
-                  Pricing
+                  Products
                 </Button>
               </Link>
             </NavigationMenuItem>
@@ -132,11 +132,14 @@ function NavBarMobile({ admin }: { admin: boolean }) {
 
 export default function NavBar() {
   const [loggedIn, setLoggedIn] = useRecoilState(isLoggedIn);
+  const [email, setEmail] = useRecoilState(userEmail);
+  
   useEffect(() => {
     if (localStorage.getItem("admin") == "true") {
       setLoggedIn(true);
+      setEmail(localStorage.getItem("userEmail") || "");
     } else setLoggedIn(false);
-  }, [loggedIn]);
+  }, [loggedIn, setLoggedIn, setEmail]);
 
   return (
     <>

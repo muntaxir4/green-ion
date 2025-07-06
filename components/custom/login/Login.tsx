@@ -14,25 +14,32 @@ import {
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { isAuthorizedEmail } from "@/lib/auth";
 
 //isLogged in
-import { isLoggedIn } from "@/store/atom";
+import { isLoggedIn, userEmail } from "@/store/atom";
 import { useSetRecoilState } from "recoil";
 
 export default function Login() {
   const router = useRouter();
   const [error, setError] = useState("");
   const setIsLoggedIn = useSetRecoilState(isLoggedIn);
+  const setUserEmail = useSetRecoilState(userEmail);
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const target = event.target as HTMLFormElement;
     const emailInput = target.email as HTMLInputElement;
-    if (emailInput.value === "demo@gmail.com") {
+    
+    if (isAuthorizedEmail(emailInput.value)) {
       localStorage.setItem("admin", "true");
+      localStorage.setItem("userEmail", emailInput.value);
       setIsLoggedIn(true);
+      setUserEmail(emailInput.value);
       router.push("/dashboard");
-    } else setError("Unauthorized");
+    } else {
+      setError("Unauthorized email. Try: demo@gmail.com, admin@greenion.com, buyer@company.com");
+    }
   }
 
   return (
@@ -51,7 +58,7 @@ export default function Login() {
               <Input
                 id="email"
                 type="email"
-                placeholder="demo@gmail.com"
+                placeholder="demo@gmail.com or admin@greenion.com"
                 required
               />
             </div>
@@ -61,10 +68,13 @@ export default function Login() {
           </div>
         </form>
         <div className="mt-4 text-center text-sm">
-          Don&apos;t have an account?{" "}
+          Need access?{" "}
           <Link href="/contact" className="underline">
             Contact Us
           </Link>
+          <div className="mt-2 text-xs text-muted-foreground">
+            Demo emails: demo@gmail.com, admin@greenion.com, buyer@company.com
+          </div>
         </div>
       </CardContent>
       {error.length ? (

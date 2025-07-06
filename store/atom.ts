@@ -5,4 +5,14 @@ const isLoggedIn = atom({
   default: false,
 });
 
-export { isLoggedIn };
+const userEmail = atom({
+  key: "userEmail",
+  default: "",
+});
+
+const cartItems = atom({
+  key: "cartItems",
+  default: [],
+});
+
+export { isLoggedIn, userEmail, cartItems };
