@@ -1,5 +1,14 @@
 import { atom } from "recoil";
 
+export interface CartItem {
+  productId: string;
+  name: string;
+  price: number;
+  quantity: number;
+  unit: string;
+  image: string;
+}
+
 const isLoggedIn = atom({
   key: "isLoggedIn",
   default: false,
@@ -10,9 +19,8 @@ const userEmail = atom({
   default: "",
 });
 
-const cartItems = atom({
+const cartItems = atom<CartItem[]>({
   key: "cartItems",
   default: [],
 });
 
-export { isLoggedIn, userEmail, cartItems };

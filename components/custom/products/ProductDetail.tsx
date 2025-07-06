@@ -1,14 +1,17 @@
 "use client";
 
 import { useRecoilValue } from "recoil";
-import { isLoggedIn } from "@/store/atom";
+import { useRecoilState } from "recoil";
+import { isLoggedIn, cartItems, CartItem } from "@/store/atom";
 import { getProductById } from "@/lib/products";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ShoppingCart, ArrowLeft } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { ShoppingCart, ArrowLeft, Plus, Minus } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 interface ProductDetailProps {
   productId: string;
@@ -16,8 +19,10 @@ interface ProductDetailProps {
 
 export default function ProductDetail({ productId }: ProductDetailProps) {
   const loggedIn = useRecoilValue(isLoggedIn);
+  const [cart, setCart] = useRecoilState(cartItems);
   const router = useRouter();
   const product = getProductById(productId);
+  const [quantity, setQuantity] = useState(1);
 
   if (!product) {
     return (
@@ -31,6 +36,11 @@ export default function ProductDetail({ productId }: ProductDetailProps) {
       </div>
     );
   }
+
+  // Set initial quantity to minimum order when component loads
+  useState(() => {
+    setQuantity(product.minOrder);
+  });
 
   const formatPrice = (price: number) => {
     if (price >= 10000000) {
@@ -49,6 +59,37 @@ export default function ProductDetail({ productId }: ProductDetailProps) {
       case 'limited': return 'bg-yellow-500';
       case 'pre-order': return 'bg-blue-500';
       default: return 'bg-gray-500';
+    }
+  };
+
+  const addToCart = () => {
+    const existingItem = cart.find(item => item.productId === product.id);
+    
+    if (existingItem) {
+      setCart(cart.map(item => 
+        item.productId === product.id 
+          ? { ...item, quantity: item.quantity + quantity }
+          : item
+      ));
+    } else {
+      const newItem: CartItem = {
+        productId: product.id,
+        name: product.name,
+        price: product.pricePerUnit,
+        quantity: quantity,
+        unit: product.unit,
+        image: product.image
+      };
+      setCart([...cart, newItem]);
+    }
+    
+    // Show success message or redirect to cart
+    router.push('/cart');
+  };
+
+  const updateQuantity = (newQuantity: number) => {
+    if (newQuantity >= product.minOrder) {
+      setQuantity(newQuantity);
     }
   };
 
@@ -120,16 +161,54 @@ export default function ProductDetail({ productId }: ProductDetailProps) {
           </Card>
 
           {loggedIn ? (
+            <div className="space-y-4">
+              <Card>
+                <CardContent className="pt-6">
+                  <div className="space-y-4">
+                    <div>
+                      <label className="text-sm font-medium">Quantity:</label>
+                      <div className="flex items-center space-x-2 mt-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => updateQuantity(quantity - 1)}
+                          disabled={quantity <= product.minOrder}
+                        >
+                          <Minus className="w-4 h-4" />
+                        </Button>
+                        <Input
+                          type="number"
+                          value={quantity}
+                          onChange={(e) => updateQuantity(parseInt(e.target.value) || product.minOrder)}
+                          className="w-24 text-center"
+                          min={product.minOrder}
+                        />
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => updateQuantity(quantity + 1)}
+                        >
+                          <Plus className="w-4 h-4" />
+                        </Button>
+                      </div>
+                      <p className="text-sm text-muted-foreground mt-2">
+                        Total: {formatPrice(product.pricePerUnit * quantity)}
+                      </p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
             <div className="flex gap-4">
               <Button size="lg" className="flex-1">
                 <ShoppingCart className="w-5 h-5 mr-2" />
                 Add to Cart
               </Button>
-              <Link href="/contact">
+                <Button size="lg" className="flex-1" onClick={addToCart}>
                 <Button variant="outline" size="lg">
                   Request Quote
                 </Button>
               </Link>
+            </div>
             </div>
           ) : (
             <Card>

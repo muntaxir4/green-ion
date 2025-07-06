@@ -1,7 +1,7 @@
 "use client";
 
 import ToggleTheme from "@/components/custom/ToggleTheme";
-import { Menu } from "lucide-react";
+import { Menu, ShoppingCart } from "lucide-react";
 
 import {
   NavigationMenu,
@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/navigation-menu";
 
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 //for sidebar on mobile
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
@@ -18,10 +19,14 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 //isLogged in
-import { isLoggedIn, userEmail } from "@/store/atom";
+import { isLoggedIn, userEmail, cartItems } from "@/store/atom";
 import { RecoilState, useRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 
 function NavBarDesktop({ admin }: { admin: boolean }) {
+  const cart = useRecoilValue(cartItems);
+  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+
   return (
     <NavigationMenu className="mx-auto">
       <NavigationMenuList>
@@ -36,10 +41,25 @@ function NavBarDesktop({ admin }: { admin: boolean }) {
           </Link>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <Link href="/#pricing">
+          <Link href="/products">
             <Button variant="ghost">Products</Button>
           </Link>
         </NavigationMenuItem>
+        {admin && (
+          <NavigationMenuItem>
+            <Link href="/cart">
+              <Button variant="ghost" className="relative">
+                <ShoppingCart className="w-4 h-4 mr-2" />
+                Cart
+                {totalItems > 0 && (
+                  <Badge className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 text-xs">
+                    {totalItems}
+                  </Badge>
+                )}
+              </Button>
+            </Link>
+          </NavigationMenuItem>
+        )}
         <NavigationMenuItem>
           {admin ? (
             <Link href="/dashboard">
@@ -58,6 +78,8 @@ function NavBarDesktop({ admin }: { admin: boolean }) {
 
 function NavBarMobile({ admin }: { admin: boolean }) {
   const [open, setOpen] = useState(false);
+  const cart = useRecoilValue(cartItems);
+  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -90,7 +112,7 @@ function NavBarMobile({ admin }: { admin: boolean }) {
               </Link>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <Link href="/#pricing">
+              <Link href="/products">
                 <Button
                   variant="ghost"
                   className="text-xl"
@@ -100,6 +122,25 @@ function NavBarMobile({ admin }: { admin: boolean }) {
                 </Button>
               </Link>
             </NavigationMenuItem>
+            {admin && (
+              <NavigationMenuItem>
+                <Link href="/cart">
+                  <Button
+                    variant="ghost"
+                    className="text-xl relative"
+                    onClick={() => setOpen(false)}
+                  >
+                    <ShoppingCart className="w-5 h-5 mr-2" />
+                    Cart
+                    {totalItems > 0 && (
+                      <Badge className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 text-xs">
+                        {totalItems}
+                      </Badge>
+                    )}
+                  </Button>
+                </Link>
+              </NavigationMenuItem>
+            )}
             <NavigationMenuItem>
               {admin ? (
                 <Link href="/dashboard">
