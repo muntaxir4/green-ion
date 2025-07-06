@@ -119,8 +119,8 @@ export default function Analytics() {
                 <YAxis yAxisId="right" orientation="right" />
                 <Tooltip 
                   formatter={(value, name) => [
-                    name === 'value' ? `₹${(value / 100000).toFixed(1)}L` : 
-                    name === 'savings' ? `₹${(value / 1000).toFixed(0)}K` : value,
+                    name === 'value' ? `₹${((value as number) / 100000).toFixed(1)}L` : 
+                    name === 'savings' ? `₹${((value as number) / 1000).toFixed(0)}K` : value,
                     name === 'value' ? 'Order Value' : 
                     name === 'savings' ? 'Savings' : 'Orders'
                   ]} 
