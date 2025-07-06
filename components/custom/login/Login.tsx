@@ -30,6 +30,12 @@ export default function Login() {
     event.preventDefault();
     const target = event.target as HTMLFormElement;
     const emailInput = target.email as HTMLInputElement;
+    const passwordInput = target.password as HTMLInputElement;
+    
+    if (passwordInput.value !== "greenIon") {
+      setError("Invalid password. Please contact admin for access.");
+      return;
+    }
     
     if (isAuthorizedEmail(emailInput.value)) {
       localStorage.setItem("admin", "true");
@@ -38,7 +44,7 @@ export default function Login() {
       setUserEmail(emailInput.value);
       router.push("/dashboard");
     } else {
-      setError("Unauthorized email. Try: demo@gmail.com, admin@greenion.com, buyer@company.com");
+      setError("Unauthorized email. Please contact admin for access.");
     }
   }
 
@@ -58,7 +64,16 @@ export default function Login() {
               <Input
                 id="email"
                 type="email"
-                placeholder="demo@gmail.com or admin@greenion.com"
+                placeholder="Enter your email"
+                required
+              />
+            </div>
+            <div className="grid gap-2">
+              <label htmlFor="password">Password</label>
+              <Input
+                id="password"
+                type="password"
+                placeholder="Enter your password"
                 required
               />
             </div>
