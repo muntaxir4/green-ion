@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { Product } from "@/lib/products";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -79,10 +80,12 @@ export default function ProductCard({ product, showPricing }: ProductCardProps) 
     <Card className="h-full flex flex-col">
       <CardHeader>
         <div className="aspect-video relative mb-4 overflow-hidden rounded-lg">
-          <img 
+          <Image 
             src={product.image} 
             alt={product.name}
             className="object-cover w-full h-full"
+            width={400}
+            height={300}
           />
         </div>
         <div className="flex justify-between items-start">

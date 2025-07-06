@@ -9,7 +9,7 @@ export default function Docs() {
       <div className="text-center mb-8">
         <h1 className="text-4xl font-bold mb-4">Documentation & Research</h1>
         <p className="text-lg text-muted-foreground">
-          Comprehensive research on Kashmir's lithium potential and sustainable extraction
+          Comprehensive research on Kashmir&apos;s lithium potential and sustainable extraction
         </p>
       </div>
 
@@ -396,8 +396,8 @@ export default function Docs() {
                     <strong>Authors:</strong> Dr. Arjun Malhotra, Dr. Sunita Verma, Dr. Michael Thompson | <strong>Published:</strong> Strategic Materials Review, 2024
                   </p>
                   <p className="text-sm mb-3">
-                    This strategic analysis examines how Kashmir's lithium reserves can transform India's position in the global 
-                    energy transition. The study reveals that domestic lithium production could reduce India's import dependency 
+                    This strategic analysis examines how Kashmir&apos;s lithium reserves can transform India&apos;s position in the global 
+                    energy transition. The study reveals that domestic lithium production could reduce India&apos;s import dependency 
                     by 70% and position the country as a major player in the global lithium supply chain. The research includes 
                     geopolitical implications, supply chain security, and recommendations for policy frameworks to maximize 
                     strategic benefits while ensuring sustainable development.

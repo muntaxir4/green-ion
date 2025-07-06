@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { cartItems, isLoggedIn, CartItem } from "@/store/atom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -98,10 +99,12 @@ export default function Cart() {
               <CardContent className="p-6">
                 <div className="flex items-center space-x-4">
                   <div className="w-20 h-20 relative overflow-hidden rounded-lg">
-                    <img 
+                    <Image 
                       src={item.image} 
                       alt={item.name}
                       className="object-cover w-full h-full"
+                      width={80}
+                      height={80}
                     />
                   </div>
                   

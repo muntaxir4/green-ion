@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useRecoilValue } from "recoil";
 import { useRecoilState } from "recoil";
 import { isLoggedIn, cartItems, CartItem } from "@/store/atom";
@@ -23,7 +24,7 @@ export default function ProductDetail({ productId }: ProductDetailProps) {
   const [cart, setCart] = useRecoilState(cartItems);
   const router = useRouter();
   const product = getProductById(productId);
-  const [quantity, setQuantity] = useState(1);
+  const [quantity, setQuantity] = useState(product?.minOrder || 1);
 
   if (!product) {
     return (
@@ -37,11 +38,6 @@ export default function ProductDetail({ productId }: ProductDetailProps) {
       </div>
     );
   }
-
-  // Set initial quantity to minimum order when component loads
-  useState(() => {
-    setQuantity(product.minOrder);
-  });
 
   const formatPrice = (price: number) => {
     if (price >= 10000000) {
@@ -108,10 +104,12 @@ export default function ProductDetail({ productId }: ProductDetailProps) {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <div>
           <div className="aspect-square relative overflow-hidden rounded-lg mb-4">
-            <img 
+            <Image 
               src={product.image} 
               alt={product.name}
               className="object-cover w-full h-full"
+              width={600}
+              height={600}
             />
           </div>
         </div>

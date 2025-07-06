@@ -22,7 +22,7 @@ export default function Products() {
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold mb-4">Our Lithium Products</h1>
           <p className="text-lg text-muted-foreground mb-6">
-            Premium lithium products from Kashmir's untapped reserves
+            Premium lithium products from Kashmir&apos;s untapped reserves
           </p>
           <Card className="max-w-md mx-auto">
             <CardHeader>
@@ -48,7 +48,7 @@ export default function Products() {
       <div className="text-center mb-8">
         <h1 className="text-4xl font-bold mb-4">Our Lithium Products</h1>
         <p className="text-lg text-muted-foreground">
-          Premium lithium products from Kashmir's untapped reserves
+          Premium lithium products from Kashmir&apos;s untapped reserves
         </p>
       </div>
 
