@@ -1,6 +1,6 @@
 "use client";
 
-import { Order } from "@/lib/orders";
+import { Order } from "@/store/atom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";

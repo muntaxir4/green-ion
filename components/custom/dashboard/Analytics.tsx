@@ -4,8 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line, AreaChart, Area } from "recharts";
 import { TrendingUp, TrendingDown, Activity, Target, Package, Zap, ShoppingCart, Clock } from "lucide-react";
 import { useRecoilValue } from "recoil";
-import { userEmail } from "@/store/atom";
-import { getOrdersByEmail } from "@/lib/orders";
+import { userEmail, userOrders } from "@/store/atom";
 
 const marketPriceData = [
   { month: "Jan", carbonate: 24500, hydroxide: 28000, batteries: 850000 },
@@ -43,10 +42,10 @@ const deliveryPerformance = [
 
 export default function Analytics() {
   const email = useRecoilValue(userEmail);
-  const userOrders = getOrdersByEmail(email);
+  const orders = useRecoilValue(userOrders);
   
-  const totalSpent = userOrders.reduce((sum, order) => sum + order.totalAmount, 0);
-  const avgOrderValue = userOrders.length > 0 ? totalSpent / userOrders.length : 0;
+  const totalSpent = orders.reduce((sum, order) => sum + order.totalAmount, 0);
+  const avgOrderValue = orders.length > 0 ? totalSpent / orders.length : 0;
   const totalSavings = 359000; // Calculated savings from bulk orders
   const onTimeDelivery = 97; // Average on-time delivery rate
 
