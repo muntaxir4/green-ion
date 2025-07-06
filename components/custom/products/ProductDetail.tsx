@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { ShoppingCart, ArrowLeft, Plus, Minus } from "lucide-react";
 import Link from "next/link";
+import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -84,7 +85,7 @@ export default function ProductDetail({ productId }: ProductDetailProps) {
     }
     
     // Show success message or redirect to cart
-    router.push('/cart');
+    toast.success(`Added ${quantity} ${product.unit.includes('unit') ? 'units' : 'MT'} of ${product.name} to cart!`);
   };
 
   const updateQuantity = (newQuantity: number) => {
@@ -199,11 +200,11 @@ export default function ProductDetail({ productId }: ProductDetailProps) {
                 </CardContent>
               </Card>
             <div className="flex gap-4">
-              <Button size="lg" className="flex-1">
+              <Button size="lg" className="flex-1" onClick={addToCart}>
                 <ShoppingCart className="w-5 h-5 mr-2" />
                 Add to Cart
               </Button>
-                <Button size="lg" className="flex-1" onClick={addToCart}>
+              <Link href="/contact">
                 <Button variant="outline" size="lg">
                   Request Quote
                 </Button>

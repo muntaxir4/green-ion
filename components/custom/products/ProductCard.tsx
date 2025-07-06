@@ -9,6 +9,7 @@ import Link from "next/link";
 import { useRecoilState } from "recoil";
 import { cartItems, CartItem } from "@/store/atom";
 import { useState } from "react";
+import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 
 interface ProductCardProps {
@@ -63,6 +64,9 @@ export default function ProductCard({ product, showPricing }: ProductCardProps) 
     
     // Reset quantity to minimum order
     setQuantity(product.minOrder);
+    
+    // Show success toast
+    toast.success(`Added ${quantity} ${product.unit.includes('unit') ? 'units' : 'MT'} of ${product.name} to cart!`);
   };
 
   const updateQuantity = (newQuantity: number) => {

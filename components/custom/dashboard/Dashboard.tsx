@@ -10,12 +10,13 @@ import {
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-import { IndianRupee, Package, Truck, TrendingUp } from "lucide-react";
+import { IndianRupee, Package, Truck, TrendingUp, BarChart3, PieChart, Activity } from "lucide-react";
 
 //import required custom components
 import Overview from "@/components/custom/dashboard/Overview";
 import RecentOrders from "@/components/custom/dashboard/RecentOrders";
 import OrdersTable from "@/components/custom/dashboard/OrdersTable";
+import Analytics from "@/components/custom/dashboard/Analytics";
 import { useRecoilValue } from "recoil";
 import { isLoggedIn, userEmail } from "@/store/atom";
 import { useEffect } from "react";
@@ -143,19 +144,7 @@ export default function Dashboard() {
           <OrdersTable orders={userOrders} />
         </TabsContent>
         <TabsContent value="analytics" className="m-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Analytics Dashboard</CardTitle>
-              <CardDescription>
-                Detailed insights into your lithium procurement patterns
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground">
-                Advanced analytics features coming soon...
-              </p>
-            </CardContent>
-          </Card>
+          <Analytics />
         </TabsContent>
       </Tabs>
     </div>
