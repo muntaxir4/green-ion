@@ -9,17 +9,17 @@ export interface CartItem {
   image: string;
 }
 
-const isLoggedIn = atom({
+export const isLoggedIn = atom({
   key: "isLoggedIn",
   default: false,
 });
 
-const userEmail = atom({
+export const userEmail = atom({
   key: "userEmail",
   default: "",
 });
 
-const cartItems = atom<CartItem[]>({
+export const cartItems = atom<CartItem[]>({
   key: "cartItems",
   default: [],
 });
