@@ -12,8 +12,20 @@ export default function WavyBackgroundDemo(props: { [key: string]: any }) {
         Green Ion Energy.
       </p>
       <p className=" text-lg sm:text-xl mt-4 text-white font-normal inter-var text-center">
-        {"Leverage the power of India's Lithium Mines."}
+        {"Unlocking Kashmir's Lithium Potential for a Sustainable Future"}
       </p>
+      <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="/products">
+          <button className="px-8 py-3 bg-white text-black rounded-lg font-semibold hover:bg-gray-100 transition-colors">
+            Explore Products
+          </button>
+        </a>
+        <a href="/docs">
+          <button className="px-8 py-3 border border-white text-white rounded-lg font-semibold hover:bg-white hover:text-black transition-colors">
+            View Research
+          </button>
+        </a>
+      </div>
     </WavyBackground>
   );
 }

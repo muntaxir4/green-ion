@@ -1,7 +1,7 @@
 //custom components
 import Investors from "@/components/custom/Investors";
 import People from "@/components/custom/People";
-import Pricing from "@/components/custom/Pricing";
+import ProductShowcase from "@/components/custom/ProductShowcase";
 
 import WavyBackgroundDemo from "@/components/custom/WavyBackgroundDemo";
 
@@ -13,7 +13,7 @@ export default function Home() {
       </div>
       <Investors />
       <People />
-      <Pricing />
+      <ProductShowcase />
     </div>
   );
 }
