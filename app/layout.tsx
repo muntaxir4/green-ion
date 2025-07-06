@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "../styles/globals.css";
+import { Toaster } from "sonner";
 
 import { ThemeProvider } from "@/components/ui/theme-provider";
 
@@ -33,11 +34,16 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <Layout>
-            <NavBar />
-            {children}
+            <div className="min-h-screen flex flex-col">
+              <NavBar />
+              <main className="flex-1">
+                {children}
+              </main>
+              <Footer />
+            </div>
           </Layout>
+          <Toaster position="top-right" />
         </ThemeProvider>
-        <Footer />
       </body>
     </html>
   );

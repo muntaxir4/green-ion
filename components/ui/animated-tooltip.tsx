@@ -9,7 +9,7 @@ import {
   useSpring,
 } from "framer-motion";
 
-import { Avatar, AvatarFallback } from "@radix-ui/react-avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 export const AnimatedTooltip = ({
   items,

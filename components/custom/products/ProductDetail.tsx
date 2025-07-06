@@ -1,14 +1,19 @@
 "use client";
 
+import Image from "next/image";
 import { useRecoilValue } from "recoil";
-import { isLoggedIn } from "@/store/atom";
+import { useRecoilState } from "recoil";
+import { isLoggedIn, cartItems, CartItem } from "@/store/atom";
 import { getProductById } from "@/lib/products";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ShoppingCart, ArrowLeft } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { ShoppingCart, ArrowLeft, Plus, Minus } from "lucide-react";
 import Link from "next/link";
+import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 interface ProductDetailProps {
   productId: string;
@@ -16,8 +21,10 @@ interface ProductDetailProps {
 
 export default function ProductDetail({ productId }: ProductDetailProps) {
   const loggedIn = useRecoilValue(isLoggedIn);
+  const [cart, setCart] = useRecoilState(cartItems);
   const router = useRouter();
   const product = getProductById(productId);
+  const [quantity, setQuantity] = useState(product?.minOrder || 1);
 
   if (!product) {
     return (
@@ -52,6 +59,37 @@ export default function ProductDetail({ productId }: ProductDetailProps) {
     }
   };
 
+  const addToCart = () => {
+    const existingItem = cart.find(item => item.productId === product.id);
+    
+    if (existingItem) {
+      setCart(cart.map(item => 
+        item.productId === product.id 
+          ? { ...item, quantity: item.quantity + quantity }
+          : item
+      ));
+    } else {
+      const newItem: CartItem = {
+        productId: product.id,
+        name: product.name,
+        price: product.pricePerUnit,
+        quantity: quantity,
+        unit: product.unit,
+        image: product.image
+      };
+      setCart([...cart, newItem]);
+    }
+    
+    // Show success message or redirect to cart
+    toast.success(`Added ${quantity} ${product.unit.includes('unit') ? 'units' : 'MT'} of ${product.name} to cart!`);
+  };
+
+  const updateQuantity = (newQuantity: number) => {
+    if (newQuantity >= product.minOrder) {
+      setQuantity(newQuantity);
+    }
+  };
+
   return (
     <div className="container mx-auto px-4 py-8">
       <Button 
@@ -66,10 +104,12 @@ export default function ProductDetail({ productId }: ProductDetailProps) {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <div>
           <div className="aspect-square relative overflow-hidden rounded-lg mb-4">
-            <img 
+            <Image 
               src={product.image} 
               alt={product.name}
               className="object-cover w-full h-full"
+              width={600}
+              height={600}
             />
           </div>
         </div>
@@ -120,8 +160,45 @@ export default function ProductDetail({ productId }: ProductDetailProps) {
           </Card>
 
           {loggedIn ? (
+            <div className="space-y-4">
+              <Card>
+                <CardContent className="pt-6">
+                  <div className="space-y-4">
+                    <div>
+                      <label className="text-sm font-medium">Quantity:</label>
+                      <div className="flex items-center space-x-2 mt-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => updateQuantity(quantity - 1)}
+                          disabled={quantity <= product.minOrder}
+                        >
+                          <Minus className="w-4 h-4" />
+                        </Button>
+                        <Input
+                          type="number"
+                          value={quantity}
+                          onChange={(e) => updateQuantity(parseInt(e.target.value) || product.minOrder)}
+                          className="w-24 text-center"
+                          min={product.minOrder}
+                        />
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => updateQuantity(quantity + 1)}
+                        >
+                          <Plus className="w-4 h-4" />
+                        </Button>
+                      </div>
+                      <p className="text-sm text-muted-foreground mt-2">
+                        Total: {formatPrice(product.pricePerUnit * quantity)}
+                      </p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
             <div className="flex gap-4">
-              <Button size="lg" className="flex-1">
+              <Button size="lg" className="flex-1" onClick={addToCart}>
                 <ShoppingCart className="w-5 h-5 mr-2" />
                 Add to Cart
               </Button>
@@ -130,6 +207,7 @@ export default function ProductDetail({ productId }: ProductDetailProps) {
                   Request Quote
                 </Button>
               </Link>
+            </div>
             </div>
           ) : (
             <Card>

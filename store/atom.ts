@@ -1,18 +1,26 @@
 import { atom } from "recoil";
 
-const isLoggedIn = atom({
+export interface CartItem {
+  productId: string;
+  name: string;
+  price: number;
+  quantity: number;
+  unit: string;
+  image: string;
+}
+
+export const isLoggedIn = atom({
   key: "isLoggedIn",
   default: false,
 });
 
-const userEmail = atom({
+export const userEmail = atom({
   key: "userEmail",
   default: "",
 });
 
-const cartItems = atom({
+export const cartItems = atom<CartItem[]>({
   key: "cartItems",
   default: [],
 });
 
-export { isLoggedIn, userEmail, cartItems };

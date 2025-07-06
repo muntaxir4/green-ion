@@ -72,9 +72,6 @@ export default function Login() {
           <Link href="/contact" className="underline">
             Contact Us
           </Link>
-          <div className="mt-2 text-xs text-muted-foreground">
-            Demo emails: demo@gmail.com, admin@greenion.com, buyer@company.com
-          </div>
         </div>
       </CardContent>
       {error.length ? (
