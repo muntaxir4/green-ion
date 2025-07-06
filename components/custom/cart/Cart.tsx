@@ -179,9 +179,11 @@ export default function Cart() {
                   <span>{formatPrice(getTotalAmount())}</span>
                 </div>
               </div>
-              <Button className="w-full" size="lg">
-                Proceed to Checkout
-              </Button>
+              <Link href="/checkout" className="w-full">
+                <Button className="w-full" size="lg">
+                  Proceed to Checkout
+                </Button>
+              </Link>
               <Link href="/products">
                 <Button variant="outline" className="w-full">
                   Continue Shopping

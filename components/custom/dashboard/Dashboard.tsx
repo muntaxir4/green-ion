@@ -17,15 +17,14 @@ import Overview from "@/components/custom/dashboard/Overview";
 import RecentOrders from "@/components/custom/dashboard/RecentOrders";
 import OrdersTable from "@/components/custom/dashboard/OrdersTable";
 import Analytics from "@/components/custom/dashboard/Analytics";
-import { useRecoilValue } from "recoil";
-import { isLoggedIn, userEmail } from "@/store/atom";
+import { useRecoilValue, useRecoilState } from "recoil";
+import { isLoggedIn, userEmail, userOrders } from "@/store/atom";
 import { useEffect } from "react";
-import { getOrdersByEmail } from "@/lib/orders";
 
 export default function Dashboard() {
   const loggedIn = useRecoilValue(isLoggedIn);
   const email = useRecoilValue(userEmail);
-  const userOrders = getOrdersByEmail(email);
+  const [orders, setOrders] = useRecoilState(userOrders);
   
   useEffect(() => {
     if (!loggedIn) {
@@ -33,11 +32,11 @@ export default function Dashboard() {
     }
   }, [loggedIn]);
 
-  const totalSpent = userOrders.reduce((sum, order) => sum + order.totalAmount, 0);
-  const activeOrders = userOrders.filter(order => 
+  const totalSpent = orders.reduce((sum, order) => sum + order.totalAmount, 0);
+  const activeOrders = orders.filter(order => 
     ['pending', 'confirmed', 'processing', 'shipped', 'in-transit'].includes(order.status)
   ).length;
-  const deliveredOrders = userOrders.filter(order => order.status === 'delivered').length;
+  const deliveredOrders = orders.filter(order => order.status === 'delivered').length;
 
   return (
     <div className="mx-2 my-4">
@@ -71,7 +70,7 @@ export default function Dashboard() {
                   ₹{(totalSpent / 100000).toFixed(1)}L
                 </div>
                 <p className="text-xs text-muted-foreground">
-                  Across {userOrders.length} orders
+                  Across {orders.length} orders
                 </p>
               </CardContent>
             </Card>
@@ -141,7 +140,7 @@ export default function Dashboard() {
           </div>
         </TabsContent>
         <TabsContent value="orders" className="m-4">
-          <OrdersTable orders={userOrders} />
+          <OrdersTable orders={orders} />
         </TabsContent>
         <TabsContent value="analytics" className="m-4">
           <Analytics />

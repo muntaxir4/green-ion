@@ -9,6 +9,31 @@ export interface CartItem {
   image: string;
 }
 
+export interface Order {
+  id: string;
+  customerEmail: string;
+  products: Array<{
+    productId: string;
+    name: string;
+    quantity: number;
+    priceAtTime: number;
+    unit: string;
+  }>;
+  totalAmount: number;
+  status: 'pending' | 'confirmed' | 'processing' | 'shipped' | 'in-transit' | 'delivered' | 'cancelled';
+  orderDate: string;
+  estimatedDelivery: string;
+  shippingAddress: {
+    company: string;
+    address: string;
+    city: string;
+    state: string;
+    country: string;
+    pincode: string;
+  };
+  trackingNumber?: string;
+}
+
 export const isLoggedIn = atom({
   key: "isLoggedIn",
   default: false,
@@ -24,3 +49,12 @@ export const cartItems = atom<CartItem[]>({
   default: [],
 });
 
+export const userOrders = atom<Order[]>({
+  key: "userOrders",
+  default: [],
+});
+
+export const isCheckingOut = atom({
+  key: "isCheckingOut",
+  default: false,
+});

@@ -1,12 +1,12 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useRecoilValue } from "recoil";
-import { userEmail } from "@/store/atom";
-import { getOrdersByEmail } from "@/lib/orders";
+import { userEmail, userOrders } from "@/store/atom";
 import { Badge } from "@/components/ui/badge";
 
 export default function RecentOrders() {
   const email = useRecoilValue(userEmail);
-  const orders = getOrdersByEmail(email).slice(0, 5);
+  const allOrders = useRecoilValue(userOrders);
+  const orders = allOrders.slice(0, 5);
 
   const getStatusColor = (status: string) => {
     switch (status) {
